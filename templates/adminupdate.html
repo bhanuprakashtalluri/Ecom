@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Admin Profile</title> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background: linear-gradient(black, rgb(118, 115, 115));
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        form {
+            width: 400px;
+            height: auto;
+            border: 1px solid;
+            padding: 2%;
+            border-radius: 8px;
+            margin: 6% auto; /* Changed margin to center the form horizontally */
+            color: white;
+        }
+        /* Optional: Add some styling for the image display if needed */
+        form img {
+            display: block; /* Makes the image take up its own line */
+            margin-bottom: 15px; /* Adds space below the image */
+            max-width: 100%; /* Ensures image doesn't overflow form */
+            height: auto; /* Maintain aspect ratio */
+            border: 1px solid #ccc; /* Optional: border around image */
+            padding: 5px; /* Optional: padding inside image border */
+            border-radius: 4px; /* Optional: rounded corners for image */
+        }
+    </style>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container mt-3">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'success' if category == 'message' else category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="adminNameInput" class="form-label">Admin Name</label>
+            <input type="text" class="form-control" id="adminNameInput" placeholder="Update your username"
+                name="adminname" value="{{admindata[0]}}" required />
+        </div>
+        <div class="mb-3">
+            <label for="addressInput" class="form-label">Address:- </label>
+            <input type="text" class="form-control" id="addressInput" placeholder="Update your address"
+                name="address" value="{{admindata[1]}}" required />
+        </div>
+        <div class="mb-3">
+            <label for="phoneNumberInput" class="form-label">Phone No.:- </label>
+            <input type="text" class="form-control" id="phoneNumberInput" placeholder="Update your Phone number"
+                name="ph_no" value="{{admindata[2]}}" required />
+        </div>
+
+        {% if admindata[2] %} {# Only display image if imagename exists #}
+        <img src="{{ url_for('static', filename = admindata[3]) }}" alt="Admin Image" width="auto" height="300px">
+        {% else %}
+        <p>No profile image uploaded yet.</p>
+        {% endif %}
+        
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Upload New Profile Picture (Optional)</label>
+            <input class="form-control" type="file" name="file" id="formFile" />
+        </div>
+        <button type="submit" class="btn btn-warning">Update Profile</button> </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
